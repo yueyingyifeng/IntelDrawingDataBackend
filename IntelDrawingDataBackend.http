@@ -1,0 +1,6 @@
+@IntelDrawingDataBackend_HostAddress = http://localhost:5216
+
+GET {{IntelDrawingDataBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
