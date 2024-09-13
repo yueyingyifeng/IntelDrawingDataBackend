@@ -1,4 +1,6 @@
-﻿namespace IntelDrawingDataBackend.Util
+﻿using System.Text.Json;
+
+namespace IntelDrawingDataBackend.Entities
 {
     // 用户信息
     public class UserInfo
@@ -11,9 +13,14 @@
             this.createTime = createTime;
         }
 
-        public int id {  get; set; }
+        public int id { get; set; }
         public string email { get; set; }
-        public string name {  get; set; }
+        public string name { get; set; }
         public long createTime { get; set; }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

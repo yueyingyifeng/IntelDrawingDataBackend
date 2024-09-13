@@ -1,6 +1,7 @@
 ﻿namespace IntelDrawingDataBackend.Util
 {
     // 简易 Token 生成
+    // 从时间戳中取后 3 位，再随机连续取 3 位，相乘的结果和长度为 6 的大小写字母和数字组合拼接，得到简易 Token
     public class TokenGenerator
     {
         private static string GenerateRandomString(int length)

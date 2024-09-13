@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace IntelDrawingDataBackend.Entities
 {
@@ -13,7 +14,7 @@ namespace IntelDrawingDataBackend.Entities
 
         public override string ToString()
         {
-            return "LoginPackage:{ id: " + id + ", email: " + email + ", psw: " + psw + " }";
+            return JsonSerializer.Serialize(this);
         }
     }
 }

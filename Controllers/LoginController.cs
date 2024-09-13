@@ -15,14 +15,12 @@ namespace IntelDrawingDataBackend.Controllers
             //Console.WriteLine(login_info.ToString());
             UserCredential uc = new UserCredential(login_info);
             if (!uc.isPass())
-            {
                 return BadRequest("ID and Password is not match");
-            }
 
             string token = TokenGenerator.GetToken();
             uc.token = token;
 
-            return Ok(uc);
+            return Ok(uc.userInfo);
         }
     }
 }

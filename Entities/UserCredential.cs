@@ -1,4 +1,5 @@
-﻿using IntelDrawingDataBackend.Util;
+﻿using IntelDrawingDataBackend.DB;
+using System.Text.Json;
 
 namespace IntelDrawingDataBackend.Entities
 {
@@ -10,27 +11,39 @@ namespace IntelDrawingDataBackend.Entities
 
 
         private LoginPackage loginPackage;
+        private RegisterPackage registerPackage;
         public UserCredential(LoginPackage loginPackage)
         {
             this.loginPackage = loginPackage;
+            
+        }
+
+        public UserCredential(RegisterPackage registerPackage)
+        {
+            this.registerPackage = registerPackage;
+        }
+
+        public bool isAlreadyHaveTheUser()
+        {
+            bool result = true;
+
+
+
+            return result;
         }
 
         public bool isPass() {
 
-            return findUser();
+            bool result = false;
+            UserInfo userInfo = DBManager.login_checking(loginPackage);
+            if (userInfo == null)
+                return false;
+            return true;
         }
 
-        bool findUser()
+        public override string ToString()
         {
-            bool result = false;
-            if((loginPackage.id == 123 || loginPackage.email == "123@123.com") && loginPackage.psw == "123456")
-            {
-                userInfo = new UserInfo(123, "123@123.com", "hzc", DateTimeOffset.Now.ToUnixTimeMilliseconds());
-                //TODO: 这里是数据库查询
-                result = true;
-            }
-
-            return result;
+            return JsonSerializer.Serialize(this);
         }
     }
 }

@@ -1,3 +1,6 @@
+using IntelDrawingDataBackend.Controllers;
+using IntelDrawingDataBackend.DB;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,8 +25,6 @@ app.UseCors();
 
 //----------------
 
-
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -37,4 +38,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+DBManager.InitDB();
+
 app.Run();
+
