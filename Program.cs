@@ -36,6 +36,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllers();
 
 DBManager.InitDB();
