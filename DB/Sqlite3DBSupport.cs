@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace IntelDrawingDataBackend.DB
 {
-    // Sqlite3 数据库引
+    // Sqlite3 数据库引用
     public class Sqlite3DBSupport
     {
         private const string FileName = "test.db";
