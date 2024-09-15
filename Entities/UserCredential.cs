@@ -22,20 +22,17 @@ namespace IntelDrawingDataBackend.Entities
         {
             this.registerPackage = registerPackage;
         }
-
+        // 注册判断
         public bool isAlreadyHaveTheUser()
         {
-            bool result = true;
-
-
-
-            return result;
+            userInfo = DBManager.register_checking(registerPackage);
+            if (userInfo == null)
+                return true;
+            return false;
         }
-
+        // 登录判断
         public bool isPass() {
-
-            bool result = false;
-            UserInfo userInfo = DBManager.login_checking(loginPackage);
+            userInfo = DBManager.login_checking(loginPackage);
             if (userInfo == null)
                 return false;
             return true;

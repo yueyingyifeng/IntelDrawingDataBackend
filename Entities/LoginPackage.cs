@@ -7,7 +7,7 @@ namespace IntelDrawingDataBackend.Entities
     // 登录包
     public class LoginPackage
     {
-        public int? id {  get; set; }
+        public long? id {  get; set; }
         public string? email {  get; set; }
         [Required]
         public string psw { get; set; }

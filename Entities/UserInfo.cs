@@ -5,7 +5,7 @@ namespace IntelDrawingDataBackend.Entities
     // 用户信息
     public class UserInfo
     {
-        public UserInfo(int id, string email, string name, long createTime)
+        public UserInfo(long id, string email, string name, long createTime)
         {
             this.id = id;
             this.email = email;
@@ -13,7 +13,7 @@ namespace IntelDrawingDataBackend.Entities
             this.createTime = createTime;
         }
 
-        public int id { get; set; }
+        public long id { get; set; }
         public string email { get; set; }
         public string name { get; set; }
         public long createTime { get; set; }

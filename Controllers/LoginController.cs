@@ -12,15 +12,12 @@ namespace IntelDrawingDataBackend.Controllers
         [HttpPost]
         public ActionResult Post(LoginPackage login_info)
         {
-            //Console.WriteLine(login_info.ToString());
             UserCredential uc = new UserCredential(login_info);
-            if (!uc.isPass())
+            if (!uc.isPass() && uc.userInfo == null)
                 return BadRequest("ID and Password is not match");
 
-            string token = TokenGenerator.GetToken();
-            uc.token = token;
-
-            return Ok(uc.userInfo);
+            uc.token = TokenAndIDGenerator.GenerateToken();
+            return Ok(uc);
         }
     }
 }

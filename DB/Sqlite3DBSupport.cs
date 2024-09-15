@@ -12,7 +12,6 @@ namespace IntelDrawingDataBackend.DB
         [DllImport("Sqlite3DBSupport.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Sqlite3Exe([MarshalAs(UnmanagedType.LPStr)] string filename,
                                        [MarshalAs(UnmanagedType.LPStr)] string sql);
-
         static string Sqlite3ExE(string sql)// 使用这个函数进行调用
         {
             if (Sqlite3Exe == null)
@@ -26,9 +25,7 @@ namespace IntelDrawingDataBackend.DB
         {
             string r = Sqlite3ExE(sql);
             if (r[0] == '#')
-                throw new Exception(r);
-            // TODO: 记得注释掉下面这个输出
-            Console.WriteLine("======================\n" + sql + "\n" + r + "\n======================");
+                throw new Exception(r + "\nsql: " + sql);
 
             return JsonConvert.DeserializeObject<SqlResult>(r);
         }
