@@ -67,5 +67,10 @@ namespace IntelDrawingDataBackend.DB
                    $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}," +
                    $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()});";
         }
+
+        public static string CreateTable(long userID, long fileID, string filePath) {
+            return $"INSERT INTO UserData VALUES({userID}, {fileID});" +
+                   $"INSERT INTO FileInfo VALUES({userID}, '{filePath}', {DateTimeOffset.Now.ToUnixTimeMilliseconds()});";
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace IntelDrawingDataBackend.DB
             catch (JsonException je)
             {
                 Console.WriteLine(sr + " ");
-                Console.WriteLine(je.Message);
+                Console.WriteLine("DB: " + je.Message);
             }
             catch(Exception e)
             {
@@ -58,7 +58,7 @@ namespace IntelDrawingDataBackend.DB
                 sr = Sqlite3DBSupport.Exe(SqlSentences.register_checking(package));
                 if (sr.Data == null)
                 {
-                    long id = TokenAndIDGenerator.GenerateID();
+                    long id = IDGenerator.GenerateID();
                     sr = Sqlite3DBSupport.Exe(SqlSentences.register_insert(id, package));
                     userInfo = new UserInfo(
                         id,
@@ -70,9 +70,25 @@ namespace IntelDrawingDataBackend.DB
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("DB: " + e.Message);
             }
             return userInfo;
+        }
+
+        public static bool CreateTable(long id, string filePath)
+        {
+            long fileID = IDGenerator.GenerateID();
+            try
+            {
+                Sqlite3DBSupport.Exe(SqlSentences.CreateTable(id, fileID, filePath));
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("DB: " + e.Message);
+                return false;
+            }
+
+            return true;
         }
     }
 }

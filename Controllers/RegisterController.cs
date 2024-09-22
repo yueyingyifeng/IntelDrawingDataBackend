@@ -14,9 +14,9 @@ namespace IntelDrawingDataBackend.Controllers
             {
                 UserCredential uc = new UserCredential(registerPackage);
                 if (uc.isAlreadyHaveTheUser())
-                    return BadRequest("There already has a same user");
+                    return BadRequest("this email is occupied");
 
-                uc.token = TokenAndIDGenerator.GenerateToken();
+                uc.GenerateToken();
                 return StatusCode(201, uc);
             }
         }

@@ -16,7 +16,7 @@ namespace IntelDrawingDataBackend.Controllers
             if (!uc.isPass() && uc.userInfo == null)
                 return BadRequest("ID and Password is not match");
 
-            uc.token = TokenAndIDGenerator.GenerateToken();
+            uc.GenerateToken();
             return Ok(uc);
         }
     }

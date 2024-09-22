@@ -1,4 +1,5 @@
 ﻿using IntelDrawingDataBackend.DB;
+using IntelDrawingDataBackend.Util;
 using System.Text.Json;
 
 namespace IntelDrawingDataBackend.Entities
@@ -36,6 +37,11 @@ namespace IntelDrawingDataBackend.Entities
             if (userInfo == null)
                 return false;
             return true;
+        }
+
+        public void GenerateToken()
+        {
+            token = TokenGenerator.GenerateToken(userInfo);
         }
 
         public override string ToString()

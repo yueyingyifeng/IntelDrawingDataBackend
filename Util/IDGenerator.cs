@@ -2,11 +2,12 @@
 {
     // 简易 Token 和 ID 生成器
     // Token 生成: 从时间戳中取后 3 位，再随机连续取 3 位，相乘的结果和长度为 6 的大小写字母和数字组合拼接，得到简易 Token
+    // 简易 Token 生成废弃，因为对 Token 的功能有理解偏差，现在用新的 Token 生成器
     // ID 生成：雪花算法，省略了机器 ID 和数据中心 ID 
     // 注：由 chatGPT 生成的代码
-    public class TokenAndIDGenerator
+    public class IDGenerator
     {
-        private static string GenerateRandomString(int length)
+        public static string GenerateRandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             Random random = new Random();
@@ -19,7 +20,8 @@
 
             return new string(stringChars);
         }
-        public static string GenerateToken()
+        [Obsolete("因为对 Token 的功能有理解偏差，现在用新的 Token 生成器类")]
+        public static string GenerateToken_old()
         {
             // 获取当前时间戳（以毫秒为单位）
             long timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
@@ -44,6 +46,10 @@
             // 拼接结果并返回
             return result.ToString() + randomString;
         }
+        
+
+        
+        
         //===========================================雪花算法===========================================//
         private static readonly DateTime Epoch = new DateTime(2024, 9, 13);
         private const int SequenceBits = 12;
