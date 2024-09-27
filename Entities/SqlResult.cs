@@ -7,6 +7,7 @@ namespace IntelDrawingDataBackend.Entities
     {
         public Dictionary<string, List<string>> Data { get; set; }
         public string Sql { get; set; }
+        public int affected { get; set; }
 
         public override string ToString()
         {
