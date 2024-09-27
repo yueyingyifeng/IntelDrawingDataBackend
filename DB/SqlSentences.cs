@@ -70,7 +70,17 @@ namespace IntelDrawingDataBackend.DB
 
         public static string CreateTable(long userID, long fileID, string filePath) {
             return $"INSERT INTO UserData VALUES({userID}, {fileID});" +
-                   $"INSERT INTO FileInfo VALUES({userID}, '{filePath}', {DateTimeOffset.Now.ToUnixTimeMilliseconds()});";
+                   $"INSERT INTO FileInfo VALUES({fileID}, '{filePath}', {DateTimeOffset.Now.ToUnixTimeMilliseconds()});";
+        }
+
+        public static string GetFileNameByfileID(long fileID)
+        {
+            return $"SELECT FilePath FROM \"FileInfo\" WHERE fileID = {fileID}";
+        }
+
+        public static string DeleteTable(long fileID)
+        {
+            return $"Delete FROM FileInfo WHERE fileID = {fileID}";
         }
     }
 }
