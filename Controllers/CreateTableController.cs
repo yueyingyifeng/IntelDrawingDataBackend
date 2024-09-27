@@ -1,6 +1,7 @@
 ﻿using IntelDrawingDataBackend.Entities;
 using IntelDrawingDataBackend.Util;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace IntelDrawingDataBackend.Controllers
 {
@@ -11,16 +12,12 @@ namespace IntelDrawingDataBackend.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CreateTablePackage package)
         {
-            string? token = Request.Headers.Authorization;
+            UserCredential uc = new UserCredential(Request.Headers.Authorization);
 
-            if(token == null || token.Length < 16)
+            if(uc.IsTokenCool())
                 return new UnauthorizedResult();//401 Unauthorized
 
-            token = token.Substring(6);
-
-            UserInfo userInfo = TokenGenerator.AnalysisToken(token);
-            if(userInfo == null)
-                return new UnauthorizedResult();//401 Unauthorized
+            UserInfo? userInfo = uc.userInfo;
 
             TableManager tm = new TableManager(userInfo,package.fileName);
             if(!tm.CreateTable(package.data)){
