@@ -1,5 +1,6 @@
 ﻿using IntelDrawingDataBackend.DB;
 using IntelDrawingDataBackend.Entities;
+using System.Diagnostics;
 
 namespace IntelDrawingDataBackend.Util
 {
@@ -26,13 +27,12 @@ namespace IntelDrawingDataBackend.Util
                 CSVManager csvManager = new CSVManager(data);
                 Directory.CreateDirectory(root + "/" + userInfo.id.ToString());
                 string p = FilePath(userInfo.id, fileName);
-                Console.WriteLine(p);
                 csvManager.SaveToFile(p);
                 DBManager.CreateTable(userInfo.id, p);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("TM: " + ex.Message);
+                Debug.WriteLine("TM: " + ex.Message);
                 return false;
             }
 
@@ -52,7 +52,7 @@ namespace IntelDrawingDataBackend.Util
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"TableManager DeleteTableFile: {ex.Message}");
+                Debug.WriteLine($"TableManager DeleteTableFile: {ex.Message}");
                 return false;
             }
             return true;

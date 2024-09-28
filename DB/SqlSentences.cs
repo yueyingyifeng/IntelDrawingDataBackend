@@ -82,5 +82,13 @@ namespace IntelDrawingDataBackend.DB
         {
             return $"Delete FROM FileInfo WHERE fileID = {fileID}";
         }
+
+        public static string GetChartListByUserID(long userID)
+        {
+            return  $"SELECT FileInfo.FileID, FilePath, CreateDate " +
+                    $"FROM UserData JOIN " +
+                    $"FileInfo ON UserData.FileID = FileInfo.FileID " +
+                    $"WHERE ID = {userID}";
+        }
     }
 }

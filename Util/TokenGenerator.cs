@@ -1,6 +1,7 @@
 ﻿using IntelDrawingDataBackend.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 
 namespace IntelDrawingDataBackend.Util
@@ -26,7 +27,7 @@ namespace IntelDrawingDataBackend.Util
             {
                 string j = new StringEncryptor(sk, iv).Decrypt(token);
                 result = JsonConvert.DeserializeObject<UserInfo>(j);
-                Console.WriteLine(result);
+                
             }
             catch (Exception)
             {
