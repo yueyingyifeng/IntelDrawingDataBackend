@@ -84,10 +84,45 @@ namespace IntelDrawingDataBackend.DB
             }
             catch(Exception e)
             {
-                Console.WriteLine("DB: " + e.Message);
+                Console.WriteLine("DB CreateTable: " + e.Message);
                 return false;
             }
 
+            return true;
+        }
+
+        public static string? GetFilePathByFileID(long fileID)
+        {
+            string? filePath = null;
+            try
+            {
+                SqlResult s = Sqlite3DBSupport.Exe(SqlSentences.GetFileNameByfileID(fileID));
+                if (s.Data == null)
+                    return null;
+                filePath = s.Data["FilePath"][0];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"DB GetFilePathByFileID: {e.Message}");
+            }
+
+            return filePath;
+        }
+
+        public static bool DeleteTable(long fileID)
+        {
+            try
+            {
+                int affected = Sqlite3DBSupport.Exe(SqlSentences.DeleteTable(fileID)).affected;
+                if(affected == 0) return false;
+                if (affected > 1)//这本可以是完全没必要的
+                    throw new Exception("########## delete too many!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"DB DeleteTable: {e.Message}");
+                return false;
+            }
             return true;
         }
     }

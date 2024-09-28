@@ -38,6 +38,25 @@ namespace IntelDrawingDataBackend.Util
 
             return true;
         }
+        // 组合用户 id 和 名字
+        public bool DeleteTableFile()
+        {
+            return DeleteTableFile(FilePath(userInfo.id, fileName));
+        }
+        // 直接删除
+        public bool DeleteTableFile(string path)
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"TableManager DeleteTableFile: {ex.Message}");
+                return false;
+            }
+            return true;
+        }
 
     }
 }
