@@ -15,7 +15,6 @@ namespace IntelDrawingDataBackend.Controllers
         public IActionResult DelTable(long fileID)
         {
             UserCredential uc = new UserCredential(Request.Headers.Authorization);
-            Console.WriteLine(uc);
 
             if (!uc.IsTokenCool())
                 return new UnauthorizedResult();//401 Unauthorized
