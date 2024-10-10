@@ -13,6 +13,12 @@ public class CSVManager
         _data = new List<List<string>>();
     }
 
+    public CSVManager(string filePath)
+    {
+        _data = new List<List<string>>();
+        LoadFromFile(filePath);
+    }
+
     public CSVManager(List<List<string>> data)
     {
         _data = data;
