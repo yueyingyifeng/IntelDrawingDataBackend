@@ -38,7 +38,7 @@ namespace IntelDrawingDataBackend.DB
 
         public static string login_checking(LoginPackage package)
         {
-            if(package.id != null)
+            if (package.id != null)
             {
                 return $"SELECT User.ID, User.Email, User.Name, UserInfo.CreateDate, UserInfo.PSW " +
                        $"FROM User " +
@@ -85,10 +85,23 @@ namespace IntelDrawingDataBackend.DB
 
         public static string GetChartListByUserID(long userID)
         {
-            return  $"SELECT FileInfo.FileID, FilePath, CreateDate " +
+            return $"SELECT FileInfo.FileID, FilePath, CreateDate " +
                     $"FROM UserData JOIN " +
                     $"FileInfo ON UserData.FileID = FileInfo.FileID " +
                     $"WHERE ID = {userID}";
+        }
+
+        public static string UpDateChartPathByFileID(long fileID, string newPath)
+        {
+            return  $"UPDATE FileInfo " +
+                    $"set FilePath = '{newPath}' " +
+                    $"WHERE FileID = {fileID}";
+        }
+
+        public static string delChartFileByFileID(long fileID)
+        {
+            return  $"DELETE FROM FileInfo " +
+                    $"WHERE FileID = {fileID}";
         }
     }
 }
