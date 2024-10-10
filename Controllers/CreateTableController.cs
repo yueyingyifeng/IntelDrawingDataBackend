@@ -14,7 +14,7 @@ namespace IntelDrawingDataBackend.Controllers
         {
             UserCredential uc = new UserCredential(Request.Headers.Authorization);
 
-            if(uc.IsTokenCool())
+            if(!uc.IsTokenCool())
                 return new UnauthorizedResult();//401 Unauthorized
 
             UserInfo? userInfo = uc.userInfo;
