@@ -9,6 +9,7 @@ namespace IntelDrawingDataBackend.Util
         UserInfo userInfo;
         string fileName;
         string root = "data";
+        //注意，这个fileName 应该是 name_type 的格式（没有后缀）
         public TableManager(UserInfo userInfo, string fileName) {
             this.userInfo = userInfo;
             this.fileName = fileName;

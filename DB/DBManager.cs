@@ -180,6 +180,22 @@ namespace IntelDrawingDataBackend.DB
 
             return ctp;
         }
+
+        public static bool UpdateChartPathByFileID(long fileID, string newPath)
+        {
+            try
+            {
+                var s = Sqlite3DBSupport.Exe(SqlSentences.UpDateChartPathByFileID(fileID,newPath));
+                if (s.affected != 1)
+                    return false;
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine($"DB UpdateChartPathByFileID: {e.Message}");
+                return false;
+            }
+            return true;
+        }
     
     }
 }
