@@ -125,7 +125,7 @@ namespace IntelDrawingDataBackend.DB
             }
             return true;
         }
-
+        // 获取该用户所保存的图表列表
         public static object? GetChartListByUserID(long userID)
         {
             var result = new
@@ -160,5 +160,26 @@ namespace IntelDrawingDataBackend.DB
 
             return result;
         }
+    
+    
+        public static CreateTablePackage? LoadChart(long userID, long fileID)
+        {
+            CreateTablePackage ctp = new CreateTablePackage();
+            try
+            {
+                var s = Sqlite3DBSupport.Exe(SqlSentences.GetChartListByUserID(userID));
+                if (s.Data == null)
+                    return null;
+                //s.Data["FileID"];
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine($"DB LoadChart: {e.Message}");
+                return null;
+            }
+
+            return ctp;
+        }
+    
     }
 }
