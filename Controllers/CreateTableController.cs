@@ -1,4 +1,5 @@
-﻿using IntelDrawingDataBackend.Entities;
+﻿using IntelDrawingDataBackend.DB;
+using IntelDrawingDataBackend.Entities;
 using IntelDrawingDataBackend.Util;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -23,7 +24,7 @@ namespace IntelDrawingDataBackend.Controllers
             if(!tm.CreateTable(package.data)){
                 return BadRequest("Create table file failed");
             }
-
+            DBManager.CreateTable(userInfo.id, tm.getFilePath());
             return StatusCode(201);
         }
     }
