@@ -13,6 +13,9 @@ namespace IntelDrawingDataBackend.Controllers
         [HttpGet]
         public IActionResult Get(long fileID)
         {
+            if(fileID == 0)
+                return BadRequest("bad argument");
+
             UserCredential uc = new UserCredential(Request.Headers.Authorization);
             if (!uc.IsTokenCool())
                 return Unauthorized();
@@ -21,7 +24,16 @@ namespace IntelDrawingDataBackend.Controllers
             if (filePath == null)
                 return BadRequest("file doesn't exist");
 
-            var csv = new CSVManager(filePath);
+            var csv = new CSVManager();
+            try
+            {
+                csv.LoadFromFile(filePath);
+            }
+            catch(FileNotFoundException)
+            {
+                DBManager.DeleteTable(fileID);
+                return BadRequest("file record corrupted");
+            }
             var fileInfo = Tools.GetFileNameAndTypeFromPath(filePath);
 
             return Ok(new

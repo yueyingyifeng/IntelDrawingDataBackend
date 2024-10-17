@@ -9,6 +9,7 @@ namespace IntelDrawingDataBackend.Util
         UserInfo userInfo;
         string fileName;
         string root = "data";
+        string filePath;
         //注意，这个fileName 应该是 name_type 的格式（没有后缀）
         public TableManager(UserInfo userInfo, string fileName) {
             this.userInfo = userInfo;
@@ -21,15 +22,31 @@ namespace IntelDrawingDataBackend.Util
             return root + $"/{id}/{fileName}.csv";
         }
 
+        public string getFilePath()
+        {
+            return filePath;
+        }
+
         public bool CreateTable(List<List<string>> data)
         {
             try
             {
                 CSVManager csvManager = new CSVManager(data);
                 Directory.CreateDirectory(root + "/" + userInfo.id.ToString());
-                string p = FilePath(userInfo.id, fileName);
-                csvManager.SaveToFile(p);
-                DBManager.CreateTable(userInfo.id, p);
+                filePath = FilePath(userInfo.id, fileName);
+
+                // 防止重复创建相同的文件 (...)
+                dynamic? list = DBManager.GetChartListByUserID(userInfo.id);
+                if(list == null)
+                    return false;
+                List<dynamic> items = list.data;
+                bool hasDuplicates = items
+                    .GroupBy(p => p.fileID)
+                    .Any(g => g.Count() > 1);
+                if(hasDuplicates)
+                    return false;
+
+                csvManager.SaveToFile(filePath);
             }
             catch (Exception ex)
             {
