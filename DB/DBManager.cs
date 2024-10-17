@@ -126,7 +126,7 @@ namespace IntelDrawingDataBackend.DB
             return true;
         }
         // 获取该用户所保存的图表列表
-        public static object? GetChartListByUserID(long userID)
+        public static dynamic? GetChartListByUserID(long userID)
         {
             var result = new
             {
