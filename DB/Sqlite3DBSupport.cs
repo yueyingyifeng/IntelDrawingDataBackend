@@ -8,7 +8,7 @@ namespace IntelDrawingDataBackend.DB
     // Sqlite3 数据库引用
     public class Sqlite3DBSupport
     {
-        private const string FileName = "test.db";
+        private const string FileName = "IntelDrawingDataBackend.db";
         [DllImport("Sqlite3DBSupport", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Sqlite3Exe([MarshalAs(UnmanagedType.LPStr)] string filename,
                                        [MarshalAs(UnmanagedType.LPStr)] string sql);
