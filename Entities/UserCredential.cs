@@ -1,6 +1,9 @@
-﻿using IntelDrawingDataBackend.DB;
+﻿using IntelDrawingDataBackend.Controllers;
+using IntelDrawingDataBackend.DB;
 using IntelDrawingDataBackend.Util;
+using log4net;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace IntelDrawingDataBackend.Entities
 {
@@ -9,7 +12,8 @@ namespace IntelDrawingDataBackend.Entities
     {
         public string? token { get; set; }
         public UserInfo? userInfo { get; set; }
-
+        [JsonIgnore]
+        private static readonly ILog log = LogManager.GetLogger(typeof(UserCredential));
 
         private LoginPackage? loginPackage;
         private RegisterPackage? registerPackage;
@@ -66,11 +70,17 @@ namespace IntelDrawingDataBackend.Entities
 
         public bool IsTokenCool()
         {
-            if (NotRightToken()) 
+            if (NotRightToken())
+            {
+                log.Error($"Unauthorized: Token not properly. token: {token} ");
                 return false;
+            }
             userInfo = GetUserInfoByToken();
             if(userInfo == null)
+            {
+                log.Error($"Unauthorized: Token cannot be serialized to UserInfo. token: {token} ");
                 return false;
+            }
             return true;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using IntelDrawingDataBackend.Entities;
 using IntelDrawingDataBackend.Util;
+using log4net;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -7,6 +8,8 @@ namespace IntelDrawingDataBackend.DB
 {
     public class DBManager
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(DBManager));
+
         public static void InitDB()
         {
             Debug.WriteLine("Creating Database");
@@ -17,10 +20,10 @@ namespace IntelDrawingDataBackend.DB
             Debug.WriteLine("Create Database done");
         }
 
-        public static UserInfo login_checking(LoginPackage package)
+        public static UserInfo? login_checking(LoginPackage package)
         {
-            UserInfo userInfo = null;
-            SqlResult sr = null;
+            UserInfo? userInfo = null;
+            SqlResult? sr = null;
             try
             {
                 sr = Sqlite3DBSupport.Exe(SqlSentences.login_checking(package));
@@ -38,21 +41,23 @@ namespace IntelDrawingDataBackend.DB
             }
             catch (JsonException je)
             {
+                log.Error("login_checking fail " + je.Message);
                 Debug.WriteLine(sr + " ");
                 Debug.WriteLine("DB: " + je.Message);
             }
             catch(Exception e)
             {
+                log.Error("DB login_checking fail " + e.Message);
                 Debug.WriteLine(e.Message);
             }
             return userInfo;
         }
     
     
-        public static UserInfo register_checking(RegisterPackage package)
+        public static UserInfo? register_checking(RegisterPackage package)
         {
-            UserInfo userInfo = null;
-            SqlResult sr = null;
+            UserInfo? userInfo = null;
+            SqlResult? sr = null;
             try
             {
                 sr = Sqlite3DBSupport.Exe(SqlSentences.register_checking(package));
@@ -70,12 +75,13 @@ namespace IntelDrawingDataBackend.DB
             }
             catch(Exception e)
             {
+                log.Error("DB register_checking fail " + e.Message);
                 Debug.WriteLine("DB: " + e.Message);
             }
             return userInfo;
         }
 
-        public static bool CreateTable(long id, string filePath)
+        public static long CreateTable(long id, string filePath)
         {
             long fileID = IDGenerator.GenerateID();
             try
@@ -84,11 +90,12 @@ namespace IntelDrawingDataBackend.DB
             }
             catch(Exception e)
             {
+                log.Error("DB CreateTable fail" + e.Message);
                 Debug.WriteLine("DB CreateTable: " + e.Message);
-                return false;
+                return 0;
             }
 
-            return true;
+            return fileID;
         }
 
         public static string? GetFilePathByFileID(long fileID)
@@ -103,6 +110,7 @@ namespace IntelDrawingDataBackend.DB
             }
             catch (Exception e)
             {
+                log.Error("DB GetFilePathByFileID fail " + e.Message);
                 Debug.WriteLine($"DB GetFilePathByFileID: {e.Message}");
             }
 
@@ -116,10 +124,14 @@ namespace IntelDrawingDataBackend.DB
                 int affected = Sqlite3DBSupport.Exe(SqlSentences.DeleteTable(fileID)).affected;
                 if(affected == 0) return false;
                 if (affected > 1)//这本可以是完全没必要的
+                {
+                    log.Fatal($"########## delete too many! fileID: {fileID}");
                     throw new Exception("########## delete too many!");
+                }
             }
             catch (Exception e)
             {
+                log.Error("DB DeleteTable fail " + e.Message);
                 Debug.WriteLine($"DB DeleteTable: {e.Message}");
                 return false;
             }
@@ -154,6 +166,7 @@ namespace IntelDrawingDataBackend.DB
             }
             catch (Exception e)
             {
+                log.Error("DB GetChartListByUserID fail " + e.Message);
                 Debug.WriteLine($"DB GetChartListByUserID: {e.Message}");
                 return null;
             }
@@ -174,6 +187,7 @@ namespace IntelDrawingDataBackend.DB
             }
             catch(Exception e)
             {
+                log.Error("DB LoadChart fail " + e.Message);
                 Debug.WriteLine($"DB LoadChart: {e.Message}");
                 return null;
             }
@@ -187,10 +201,14 @@ namespace IntelDrawingDataBackend.DB
             {
                 var s = Sqlite3DBSupport.Exe(SqlSentences.UpDateChartPathByFileID(fileID,newPath));
                 if (s.affected != 1)
+                {
+                    log.Error($"have fileID {s.affected} to update?");
                     return false;
+                }
             }
             catch(Exception e)
             {
+                log.Error("DB UpdateChartPathByFileID fail " + e.Message);
                 Debug.WriteLine($"DB UpdateChartPathByFileID: {e.Message}");
                 return false;
             }
